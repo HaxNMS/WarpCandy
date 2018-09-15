@@ -117,6 +117,7 @@ float4 gMaterialSFXColVec4              = { 0.0, 0.0, 0.0, 0.0 };
 // Texturing
 float4 gMaterialColourVec4              = {1.0, 1.0, 1.0, 1.0};
 float4 gUVScrollStepVec4                = {0.0, 0.0, 0.0, 0.0};
+float4 gUVTileRepeatVec4                = {1.0, 1.0, 0.0, 0.0};
 float4 gCustomParams02Vec4              = {0.0, 1.0, 1.0, 0.0};
 float4 gCustomParams01Vec4              = {0.0, 0.0, 0.0, 0.0};
 

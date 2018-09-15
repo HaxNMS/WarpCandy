@@ -23,6 +23,7 @@
 struct CustomPerMeshUniforms
 {      
     vec4 gUVScrollStepVec4;
+    vec4 gUVTileRepeatVec4;
     vec4 gCustomParams01Vec4;
 
 #if defined( D_SHADOW )

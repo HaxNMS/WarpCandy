@@ -686,8 +686,26 @@ VERTEX_MAIN_SRT
         {
             lFlippedScrollingUVVec4 = lUniforms.mpCustomPerMesh->gUVScrollStepVec4;
 
-            #if defined( D_OUTPUT_MOTION_VECTORS )
+            #if defined( D_OUTPUT_MOTION_VECTORS ) && !defined( _F18_UVTILES )
                 lPrevTexCoordsVec4 = lTexCoordsVec4 + lFlippedScrollingUVVec4 * lUniforms.mpPerFrame->gfPrevTime;
+            #endif
+
+            #ifdef _F18_UVTILES
+                //bodge to make tiling based on position work for objects that are scaled differently without relying on world position
+                vec2 lWorldPosVec2 = lWorldMat4[3].xz - lUniforms.mpCommonPerMesh->gPlanetPositionVec4.xz;
+                
+                #ifdef _F12_BATCHED_BILLBOARD
+                    lWorldPosVec2 += IN( mkLocalPositionVec4 ).xz -  vec2( lTexCoordsVec4.x - 0.5,  0.0 );
+                #endif
+
+                // Divide the x pos down because in batched billboards this has some slight inaccuracies
+                float lfPos = lWorldPosVec2.x / 8.0 + lWorldPosVec2.y * 10.0;
+
+                lTexCoordsVec4.x /= lUniforms.mpCustomPerMesh->gUVTileRepeatVec4.x;
+                lTexCoordsVec4.y /= lUniforms.mpCustomPerMesh->gUVTileRepeatVec4.y;
+
+                lTexCoordsVec4.x += floor( mod( lfPos, lUniforms.mpCustomPerMesh->gUVTileRepeatVec4.x ) ) / lUniforms.mpCustomPerMesh->gUVTileRepeatVec4.x;
+                lTexCoordsVec4.y += floor( mod( lfPos, lUniforms.mpCustomPerMesh->gUVTileRepeatVec4.y ) ) / lUniforms.mpCustomPerMesh->gUVTileRepeatVec4.y;
             #endif
 
             lTexCoordsVec4 += lFlippedScrollingUVVec4 * lUniforms.mpPerFrame->gfTime;
@@ -696,7 +714,6 @@ VERTEX_MAIN_SRT
         {
             //bodge to make tiling based on position work for objects that are scaled differently without relying on world position
             vec2 lWorldPosVec2 = lWorldMat4[3].xz - lUniforms.mpCommonPerMesh->gPlanetPositionVec4.xz;
-
             
             #ifdef _F12_BATCHED_BILLBOARD
                 lWorldPosVec2 += IN( mkLocalPositionVec4 ).xz -  vec2( lTexCoordsVec4.x - 0.5,  0.0 );
@@ -710,8 +727,6 @@ VERTEX_MAIN_SRT
             lTexCoordsVec4.x += floor( mod( lfPos, lUniforms.mpCustomPerMesh->gUVScrollStepVec4.z ) ) / lUniforms.mpCustomPerMesh->gUVScrollStepVec4.z;
 
             lTexCoordsVec4.y += floor( mod( lfPos, lUniforms.mpCustomPerMesh->gUVScrollStepVec4.w ) ) / lUniforms.mpCustomPerMesh->gUVScrollStepVec4.w;
-            
-
         }        
         #endif
 
