@@ -73,7 +73,7 @@
 // In UberCommon we have our uniforms specific to ubervertex declared. PLUS, IMPORTANTLY we have the SRT buffer declared. 
 // This MUST be included after CommonUniforms, but before all the other stuff that references it.
 //
-#include "UberCommon.h"
+#include "Hax/HaxCommon.h"
 
 //
 // Have to include things that reference the global under here. Things defined above may be parameters to functions in the following includes.

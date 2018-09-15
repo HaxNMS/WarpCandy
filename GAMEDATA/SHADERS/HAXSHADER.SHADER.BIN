@@ -107,12 +107,12 @@ sampler gPerlin3D = sampler_state
 
 // Planet
 float4 gPlanetPositionVec4				= {0.0, -1204.0, 0.0, 1204.0};
-float4 gLightOriginVec4   = {0.0, 0.0, 0.0, 0.0}; 
+float4 gLightOriginVec4                 = {0.0, 0.0, 0.0, 0.0}; 
 
 // Lighting
 float4 gMaterialParamsVec4              = {0.9, 0.5, 0.0, 0.5};
-float4 gMaterialSFXVec4                 = { 0.0, 0.0, 0.0, 0.0 };
-float4 gMaterialSFXColVec4              = { 0.0, 0.0, 0.0, 0.0 };
+float4 gMaterialSFXVec4                 = {0.0, 0.0, 0.0, 0.0};
+float4 gMaterialSFXColVec4              = {0.0, 0.0, 0.0, 0.0};
 
 // Texturing
 float4 gMaterialColourVec4              = {1.0, 1.0, 1.0, 1.0};
@@ -120,6 +120,7 @@ float4 gUVScrollStepVec4                = {0.0, 0.0, 0.0, 0.0};
 float4 gUVTileRepeatVec4                = {1.0, 1.0, 0.0, 0.0};
 float4 gCustomParams02Vec4              = {0.0, 1.0, 1.0, 0.0};
 float4 gCustomParams01Vec4              = {0.0, 0.0, 0.0, 0.0};
+float4 gRecolouriseVec4                 = {0.0, 0.0, 0.0, 0.0};
 
 // Vertex Displacement
 float4 gWaveOneAmplitudeVec4            = {0.0, 0.0, 0.0, 0.0};
@@ -159,7 +160,7 @@ float4 gScanColourVec4                  = {0.0, 0.0, 0.0, 0.0};
 float4 gImposterDataVec4				= {16.0, 0.0, 0.0, 0.0};
 float4 gAlphaCutoutThresholdVec4        = {0.45, 0.5, 0.0, 0.0};
 
-float4 gTileBlendScalesVec4         = {8.0, 0.5, 2.0, 2.0};
+float4 gTileBlendScalesVec4             = {8.0, 0.5, 2.0, 2.0};
 float4 gImposterDebug                   = {0.0, 0.0, 1.0, 0.0};
 
 float4 gTerrainColour1Vec4;
@@ -272,35 +273,35 @@ context PLANESPOT
 
 [[VS_GENERAL]]
 // =================================================================================================
-#include "UberVertex.shader.h"
+#include "Hax/HaxVertex.shader.h"
 
 [[VS_GENERAL_NS]]
 // =================================================================================================
 #define D_NO_SHADOWS
-#include "UberVertex.shader.h"
+#include "Hax/HaxVertex.shader.h"
 
 [[VS_DEFER]]
 // =================================================================================================
 #define D_DEFER
 #define D_OUTPUT_MOTION_VECTORS
 
-#include "UberVertex.shader.h"
+#include "Hax/HaxVertex.shader.h"
 
 [[VS_DEFER_IMPOSTER]]
 // =================================================================================================
 #define D_DEFER
 #define D_IMPOSTER_VERTEX
-#include "UberVertex.shader.h"
+#include "Hax/HaxVertex.shader.h"
 
 [[FS_LIT_FORWARD]]
 // =================================================================================================
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 [[FS_ICON_FORWARD_NS]]
 // =================================================================================================
 #define D_NO_SHADOWS
 #define D_NO_POSTPROCESS
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 [[FS_LIT_DEFER]]
 // =================================================================================================
@@ -308,14 +309,14 @@ context PLANESPOT
 #define D_ATTRIBUTES
 #define D_OUTPUT_MOTION_VECTORS
 
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 
 [[FS_DEPTH_CLEAR]]
 // =================================================================================================
 #define D_DEFER
 #define D_DEPTH_CLEAR
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 [[VS_SHADOW]]
 // =================================================================================================
@@ -364,24 +365,24 @@ context PLANESPOT
 #define D_DEFER
 #define D_INSTANCE
 #define D_OUTPUT_MOTION_VECTORS
-#include "UberVertex.shader.h"
+#include "Hax/HaxVertex.shader.h"
 
 [[VS_DEPTHONLY_DEFER_INSTANCE]]
 // =================================================================================================
 #define D_DEFER
 #define D_INSTANCE
 #define D_DEPTHONLY
-#include "UberVertex.shader.h"
+#include "Hax/HaxVertex.shader.h"
 
 [[VS_INSTANCE]]
 // =================================================================================================
 #define D_INSTANCE
-#include "UberVertex.shader.h"
+#include "Hax/HaxVertex.shader.h"
 
 [[FS_LIT_FORWARD_INSTANCE]]
 // =================================================================================================
 #define D_INSTANCE
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 [[FS_LIT_DEFER_INSTANCE]]
 // =================================================================================================
@@ -389,35 +390,35 @@ context PLANESPOT
 #define D_DEFER
 #define D_ATTRIBUTES
 #define D_OUTPUT_MOTION_VECTORS
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 [[FS_DEPTHONLY_DEFER_INSTANCE]]
 // =================================================================================================
 #define D_INSTANCE
 #define D_DEFER
 #define D_DEPTHONLY
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 [[FS_IMPOSTER_COLOUR]]
 // =================================================================================================
 #define D_IMPOSTER_COLOUR
 #define D_DEFER
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 [[FS_IMPOSTER_NORMAL]]
 // =================================================================================================
 #define D_IMPOSTER_NORMAL
 #define D_DEFER
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 [[FS_IMPOSTER_MASK]]
 // =================================================================================================
 #define D_IMPOSTER_MASK
 #define D_DEFER
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 
 [[FS_PLANE_SPOT]]
 // =================================================================================================
 #define D_PLANE_SPOT
-#include "UberFragment.shader.h"
+#include "Hax/HaxFragment.shader.h"
 

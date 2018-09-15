@@ -26,6 +26,8 @@ struct CustomPerMeshUniforms
     vec4 gUVTileRepeatVec4;
     vec4 gCustomParams01Vec4;
 
+    vec4 gRecolouriseVec4;
+
 #if defined( D_SHADOW )
     
     vec4    gBboxDepthAndClips;
