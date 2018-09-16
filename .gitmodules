@@ -1,0 +1,3 @@
+[submodule "HaxShaders"]
+	path = HaxShaders
+	url = https://github.com/HaxNMS/HaxShaders.git
